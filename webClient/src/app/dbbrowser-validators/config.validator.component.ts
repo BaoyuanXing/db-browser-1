@@ -13,14 +13,14 @@ import { Component, forwardRef } from '@angular/core';
 import { AbstractControl, ValidatorFn, NG_VALIDATORS } from '@angular/forms';
 
 @Component ({
-  selector: 'validatePort',
+  selector: 'ConfigurationValidator',
   template:'',
-  providers: [{provide: NG_VALIDATORS, useExisting: forwardRef(() => PortValidator), multi: true}]
+  providers: [{provide: NG_VALIDATORS, useExisting: forwardRef(() => ConfigurationValidator), multi: true}]
 })
 
-export class PortValidator {
+export class ConfigurationValidator {
 
-  static range(min: number, max: number): ValidatorFn {
+  static validateRange(min: number, max: number): ValidatorFn {
     return (c: AbstractControl): { [key: string]: boolean } | null => {
       let trimmed = c.value.trim();
       let val = +(trimmed);
@@ -40,8 +40,9 @@ export class PortValidator {
       return null;
     }
   }
-}
 
+}
+ 
 /*
   This program and the accompanying materials are
   made available under the terms of the Eclipse Public License v2.0 which accompanies

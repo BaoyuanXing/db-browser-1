@@ -136,9 +136,14 @@ Database  Browser
             <div class = "column-in-flex width-35 sm-window-padding">
               <ibm-label class="padding-top-and-buttom-px" labelState="success">
                 <label   class = "standard-label ">Nickname</label>
-                <input type="text" class="bx--text-input" formControlName="nickname">
+                <input #connectionName type="text" class="bx--text-input" minLength="1" formControlName="nickname">
+                <div class="bx--form-requirement">
+                    Connection name is required and must be unique.
+                </div>
               </ibm-label>
-              
+               
+ 
+          
               <ibm-label class="padding-top-and-buttom-px" labelState="success">
                 <label   class = "standard-label " >Username</label>
                 <input type="text" class="bx--text-input" formControlName="username">

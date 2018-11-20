@@ -37,7 +37,7 @@ import { Subscription } from 'rxjs/Subscription';
 import {PaginationModel} from "carbon-components-angular/pagination/pagination-model.class";
 import {Pagination} from "carbon-components-angular/pagination/pagination.component";
 import {Button} from "carbon-components-angular/button/button.directive" ;
-import { PortValidator } from './dbbrowser-validators/config.validator.component';
+import { ConfigurationValidator } from './dbbrowser-validators/config.validator.component';
 
 const logger: ZLUX.ComponentLogger = ZoweZLUX.logger.makeComponentLogger("db-browser");
 
@@ -45,7 +45,7 @@ const logger: ZLUX.ComponentLogger = ZoweZLUX.logger.makeComponentLogger("db-bro
   selector: 'dbbrowser',
   templateUrl: 'dbbrowser-component.html',
   styleUrls: ['dbbrowser-component.scss'],
-  providers: [DB2Services, ConfigurationService,PortValidator]
+  providers: [DB2Services, ConfigurationService,ConfigurationValidator]
 })
 
 export class DbBrowserComponent implements OnInit, AfterViewInit {
@@ -94,13 +94,14 @@ export class DbBrowserComponent implements OnInit, AfterViewInit {
     nickname:new FormControl('',Validators.required),
     username:new FormControl('',Validators.required),
     password:new FormControl('',Validators.required),
-    port: new FormControl('',PortValidator.range(1, 65535)),
+    port: new FormControl('',ConfigurationValidator.validateRange(1, 65535)),
     database: new FormControl('',Validators.required),
     zssAddress:new FormControl({value:'',disabled: true}),
   });
   
   @ViewChild('connectionDropDown') connectionDropDown;
   @ViewChild('sendQueryButton') sendQueryButton;
+  @ViewChild('connectionName') connectionName;
   
   private defaultPath:string = this.PATH + this.DEFAULT_PORT_FILE;
   private _docType: string;
@@ -344,6 +345,12 @@ export class DbBrowserComponent implements OnInit, AfterViewInit {
     let address = this.profileForm.get("address").value;
     let port = this.profileForm.get("port").value;
     let nickname = this.profileForm.get("nickname").value;
+    if (nickname == null || nickname=="" || this.manuallyAddedConnections.has(nickname)){
+      var typ = document.createAttribute("data-invalid");
+      typ.value = "data-invalid";
+      this.connectionName.nativeElement.attributes.setNamedItem(typ);
+      return;
+    }
     let displayName = nickname + " @" + address;
     let connection = {
       key:nickname,

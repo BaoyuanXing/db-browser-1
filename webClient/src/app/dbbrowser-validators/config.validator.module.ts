@@ -12,17 +12,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PortValidator } from './config.validator.component';
+import { ConfigurationValidator } from './config.validator.component';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    PortValidator
+    ConfigurationValidator
   ],
   entryComponents: [
-    PortValidator
+    ConfigurationValidator
   ]
 })
 export class ConfigValidatorModule {
